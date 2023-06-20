@@ -1,0 +1,62 @@
+# Packages to be installed in `Dockerfile` in `train` mode.
+# PyTorch install variables are in the Docker Compose file.
+# PyTorch and related libraries are either compiled or installed via pip
+# to reduce dependency issues with conda and for greater flexibility.
+# Manually add dependencies of compiled libraries for reduced
+# installation with pip.
+# Tip: Use `awk 'START_LINE<=NR && FINISH_LINE<=NR reqs/train-environment.yaml'`
+# to sort dependencies in the command line while preserving comments, etc.
+# Tip: The `conda-lock` command requires the `micromamba` flag to work properly.
+# To create a new conda lockfile, use the following command:
+# `conda-lock lock --micromamba -f ${CONDA_FILE} -p linux-64 --lockfile ${LOCKFILE}`
+name: base # Always use the `base` environment.
+channels:
+  - nodefaults # Do not use the default environment.
+  - conda-forge # Always use conda-forge instead.
+dependencies: # Use conda packages if possible.
+  # Requirements.
+  - hydra-core
+  - jupyterlab
+  - libjpeg-turbo # TorchVision dependency.
+  - libpng # TorchVision dependency.
+  - numpy # Intel optimized NumPy is not available on PyPI.
+  - sympy # A PyTorch dependency.
+  - tqdm
+  - typing_extensions # A PyTorch dependency.
+
+  # Essential packages.
+  - jemalloc
+  - mkl # Intel OpenMP (iomp) and other Intel optimizations depend on MKL.
+  - openssh
+  - tzdata
+
+  # Utility packages.
+  - attrs
+  - beartype
+  - conda-lock
+  - genv
+  - git
+  - htop
+  - hypothesis
+  - invoke
+  - lazygit
+  - loguru
+  - nano
+  - pandera
+  - parallel
+  - pre-commit
+  - pytest
+  - pytest-xdist
+  - pytype
+  - rsync
+  - snoop
+  - tmux==3.2a
+  - tree
+
+  # For `pip` dependencies that are not available in conda.
+  # Do not delete the `pip` installs even if no `pip` packages are used.
+  # Also, do not place anything below the `pip` installs.
+  # Source compiled packages are installed via pip.
+  - pip
+  - pip:
+      - pyre-check

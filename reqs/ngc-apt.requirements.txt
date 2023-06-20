@@ -1,0 +1,4 @@
+sudo
+tmux
+tzdata
+zsh

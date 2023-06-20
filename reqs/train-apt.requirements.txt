@@ -1,0 +1,5 @@
+# Example `apt` requirements file. `sudo` and `zsh` are required packages.
+at
+numactl
+sudo
+zsh
